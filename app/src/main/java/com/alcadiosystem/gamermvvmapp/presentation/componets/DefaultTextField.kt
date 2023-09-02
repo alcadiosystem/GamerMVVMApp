@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp.componets
+package com.alcadiosystem.gamermvvmapp.presentation.componets
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons

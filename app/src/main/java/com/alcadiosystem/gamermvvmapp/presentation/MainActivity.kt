@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp
+package com.alcadiosystem.gamermvvmapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,10 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.alcadiosystem.gamermvvmapp.screans.login.LoginScreen
-import com.alcadiosystem.gamermvvmapp.ui.theme.GamerMVVMAppTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.alcadiosystem.gamermvvmapp.presentation.navigation.AppNavigation
+import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginScreen
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 
 class MainActivity : ComponentActivity() {
+    
+    private lateinit var navController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -20,8 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    LoginScreen()
+                    navController = rememberNavController()
+                    AppNavigation(navController = navController)
 
                 }
             }

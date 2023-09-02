@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp.componets
+package com.alcadiosystem.gamermvvmapp.presentation.componets
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.alcadiosystem.gamermvvmapp.ui.theme.Red500
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
 fun DefaultButton(

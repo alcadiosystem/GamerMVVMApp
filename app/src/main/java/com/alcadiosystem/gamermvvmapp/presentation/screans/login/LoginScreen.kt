@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp.screans.login
+package com.alcadiosystem.gamermvvmapp.presentation.screans.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,18 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.alcadiosystem.gamermvvmapp.screans.login.components.LoginBottomBar
-import com.alcadiosystem.gamermvvmapp.screans.login.components.LoginContent
-import com.alcadiosystem.gamermvvmapp.ui.theme.GamerMVVMAppTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.alcadiosystem.gamermvvmapp.presentation.screans.login.components.LoginBottomBar
+import com.alcadiosystem.gamermvvmapp.presentation.screans.login.components.LoginContent
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     Scaffold(
         topBar = {},
         bottomBar = {
-            LoginBottomBar()
+            LoginBottomBar(navController)
         },
         content = {
             LoginContent()
@@ -43,7 +45,7 @@ fun GreetingPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            LoginScreen()
+            LoginScreen(rememberNavController())
 
         }
     }

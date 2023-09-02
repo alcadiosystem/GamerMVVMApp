@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp.screans.login.components
+package com.alcadiosystem.gamermvvmapp.presentation.screans.login.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,11 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alcadiosystem.gamermvvmapp.R
-import com.alcadiosystem.gamermvvmapp.componets.DefaultButton
-import com.alcadiosystem.gamermvvmapp.componets.DefaultTextField
-import com.alcadiosystem.gamermvvmapp.ui.theme.Darkgray500
-import com.alcadiosystem.gamermvvmapp.ui.theme.GamerMVVMAppTheme
-import com.alcadiosystem.gamermvvmapp.ui.theme.Red500
+import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
+import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTextField
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Darkgray500
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
 fun LoginContent() {

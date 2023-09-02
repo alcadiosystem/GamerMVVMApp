@@ -1,4 +1,4 @@
-package com.alcadiosystem.gamermvvmapp.ui.theme
+package com.alcadiosystem.gamermvvmapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
