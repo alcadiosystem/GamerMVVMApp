@@ -21,6 +21,7 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
 fun DefaultButton(
+    modifier: Modifier,
     text:String,
     onClick:()->Unit,
     color: Color = Red500,
@@ -28,9 +29,7 @@ fun DefaultButton(
 ){
     Button(
         onClick = {onClick()},
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 10.dp),
+        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = color
         )
