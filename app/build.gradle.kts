@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -65,7 +67,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     //Icons
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
-
+    //DAGGER HILT
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -76,4 +80,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 
+}
+kapt {
+    correctErrorTypes = true
 }

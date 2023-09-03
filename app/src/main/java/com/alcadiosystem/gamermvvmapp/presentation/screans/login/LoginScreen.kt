@@ -20,13 +20,16 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavHostController) {
+
+    val viewModel = LoginViewModel()
+
     Scaffold(
         topBar = {},
         bottomBar = {
             LoginBottomBar(navController)
         },
         content = {
-            LoginContent()
+            LoginContent(viewModel)
         }
     )
 }

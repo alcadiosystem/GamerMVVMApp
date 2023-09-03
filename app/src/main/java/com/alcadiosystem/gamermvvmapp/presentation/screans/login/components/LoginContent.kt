@@ -1,5 +1,6 @@
 package com.alcadiosystem.gamermvvmapp.presentation.screans.login.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,10 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,18 +33,19 @@ import androidx.compose.ui.unit.sp
 import com.alcadiosystem.gamermvvmapp.R
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTextField
+import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginViewModel
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Darkgray500
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
-fun LoginContent() {
+fun LoginContent(loginViewModel: LoginViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         BoxHeader()
-        CardForm()
+        CardForm(loginViewModel)
 
 
     }
@@ -78,9 +76,8 @@ fun BoxHeader() {
 
 
 @Composable
-fun CardForm() {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
+fun CardForm(loginViewModel: LoginViewModel) {
+
     Card(
         modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 200.dp),
         colors = CardDefaults.cardColors(
@@ -108,24 +105,30 @@ fun CardForm() {
 
             DefaultTextField(
                 modifier = Modifier.padding(top = 25.dp),
-                value = email,
+                value = loginViewModel.email.value,
                 label = "Email",
-                onValueChange = { email = it},
+                onValueChange = { loginViewModel.email.value = it},
                 icon = Icons.Default.Email,
                 keyboardType = KeyboardType.Email
             )
             DefaultTextField(
                 modifier = Modifier.padding(top = 5.dp),
-                value = password,
+                value = loginViewModel.password.value,
                 label = "Password",
-                onValueChange = { password = it},
+                onValueChange = { loginViewModel.password.value = it},
                 icon = Icons.Default.Lock,
                 keyboardType = KeyboardType.Password,
                 hideText = true
             )
 
             Spacer(modifier = Modifier.size(45.dp))
-            DefaultButton(text = "INICIAR SESSION", onClick = {}, modifier = Modifier.fillMaxWidth())
+            DefaultButton(
+                text = "INICIAR SESSION",
+                onClick = {
+                          Log.d("JHONNYFD_","Email: ${loginViewModel.email.value}")
+                          Log.d("JHONNYFD_","Password: ${loginViewModel.password.value}")
+                },
+                modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.size(25.dp))
         }
     }
@@ -145,7 +148,7 @@ fun GreetingPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            LoginContent()
+//            LoginContent()
 
         }
     }
