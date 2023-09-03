@@ -2,8 +2,6 @@ package com.alcadiosystem.gamermvvmapp.presentation.componets
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -22,17 +20,19 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 @Composable
 fun DefaultButton(
     modifier: Modifier,
-    text:String,
-    onClick:()->Unit,
+    text: String,
+    onClick: () -> Unit,
     color: Color = Red500,
-    icon: ImageVector = Icons.Default.ArrowForward
+    icon: ImageVector = Icons.Default.ArrowForward,
+    enabled:Boolean = true
 ){
     Button(
         onClick = {onClick()},
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = color
-        )
+        ),
+        enabled = enabled
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, contentDescription = null)

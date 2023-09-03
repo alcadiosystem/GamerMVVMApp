@@ -1,5 +1,7 @@
 package com.alcadiosystem.gamermvvmapp.presentation.componets
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -14,6 +16,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red700
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,22 +29,32 @@ fun DefaultTextField (
     label:String,
     icon: ImageVector = Icons.Default.Email,
     onValueChange:(String) -> Unit,
+    onValidateField:()->Unit = {},
     keyboardType: KeyboardType = KeyboardType.Text,
-    hideText:Boolean = false
+    hideText:Boolean = false,
+    errorMsg:String = ""
 ){
-    OutlinedTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = { onValueChange(it) },
-        label = { Text(text = label) },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = Color.White
-            )
-        },
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        visualTransformation = if(hideText) PasswordVisualTransformation() else VisualTransformation.None
-    )
+    Column {
+        OutlinedTextField(
+            modifier = modifier,
+            value = value,
+            onValueChange = {
+                onValueChange(it)
+                onValidateField() },
+            label = { Text(text = label) },
+            leadingIcon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            visualTransformation = if(hideText) PasswordVisualTransformation() else VisualTransformation.None,
+            singleLine = true,
+            maxLines = 1
+        )
+
+        Text(text = errorMsg, modifier = Modifier.padding(top = 5.dp), fontSize = 11.sp, color = Red700)
+    }
 }
