@@ -21,15 +21,13 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 @Composable
 fun LoginScreen(navController: NavHostController) {
 
-    val viewModel = LoginViewModel()
-
     Scaffold(
         topBar = {},
         bottomBar = {
             LoginBottomBar(navController)
         },
         content = {
-            LoginContent(viewModel)
+            LoginContent()
         }
     )
 }

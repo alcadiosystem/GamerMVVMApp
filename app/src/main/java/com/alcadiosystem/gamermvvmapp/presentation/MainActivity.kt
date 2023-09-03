@@ -12,7 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import com.alcadiosystem.gamermvvmapp.presentation.navigation.AppNavigation
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginScreen
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     
     private lateinit var navController: NavHostController

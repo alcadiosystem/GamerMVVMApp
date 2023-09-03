@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.alcadiosystem.gamermvvmapp.R
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTextField
@@ -39,100 +40,88 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
-fun LoginContent(loginViewModel: LoginViewModel) {
+fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        BoxHeader()
-        CardForm(loginViewModel)
-
-
-    }
-}
-
-@Composable
-fun BoxHeader() {
-    Box(
-        modifier = Modifier
-            .height(280.dp)
-            .background(Red500)
-            .fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier
+                .height(280.dp)
+                .background(Red500)
+                .fillMaxWidth()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.control),
-                contentDescription = null,
-                modifier = Modifier.height(130.dp)
-            )
-            Text(text = "FIREBASE MVVM")
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.control),
+                    contentDescription = null,
+                    modifier = Modifier.height(130.dp)
+                )
+                Text(text = "FIREBASE MVVM")
+            }
         }
+        Card(
+            modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 200.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Darkgray500
+            )
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                Text(
+                    text = "LOGIN",
+                    modifier = Modifier.padding(
+                        top = 40.dp,
+                        bottom = 0.dp,
+                        end = 0.dp,
+                        start = 0.dp
+                    ),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                Text(
+                    text = "Por favor inicia sesion para continuar",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+
+                DefaultTextField(
+                    modifier = Modifier.padding(top = 25.dp),
+                    value = loginViewModel.email.value,
+                    label = "Email",
+                    onValueChange = { loginViewModel.email.value = it},
+                    icon = Icons.Default.Email,
+                    keyboardType = KeyboardType.Email
+                )
+                DefaultTextField(
+                    modifier = Modifier.padding(top = 5.dp),
+                    value = loginViewModel.password.value,
+                    label = "Password",
+                    onValueChange = { loginViewModel.password.value = it},
+                    icon = Icons.Default.Lock,
+                    keyboardType = KeyboardType.Password,
+                    hideText = true
+                )
+
+                Spacer(modifier = Modifier.size(45.dp))
+                DefaultButton(
+                    text = "INICIAR SESSION",
+                    onClick = {
+                        Log.d("JHONNYFD_","Email: ${loginViewModel.email.value}")
+                        Log.d("JHONNYFD_","Password: ${loginViewModel.password.value}")
+                    },
+                    modifier = Modifier.fillMaxWidth())
+                Spacer(modifier = Modifier.size(25.dp))
+            }
+        }
+
+
     }
 }
 
-
-
-@Composable
-fun CardForm(loginViewModel: LoginViewModel) {
-
-    Card(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 200.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Darkgray500
-        )
-    ) {
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-            Text(
-                text = "LOGIN",
-                modifier = Modifier.padding(
-                    top = 40.dp,
-                    bottom = 0.dp,
-                    end = 0.dp,
-                    start = 0.dp
-                ),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.size(10.dp))
-            Text(
-                text = "Por favor inicia sesion para continuar",
-                fontSize = 12.sp,
-                color = Color.Gray
-            )
-
-            DefaultTextField(
-                modifier = Modifier.padding(top = 25.dp),
-                value = loginViewModel.email.value,
-                label = "Email",
-                onValueChange = { loginViewModel.email.value = it},
-                icon = Icons.Default.Email,
-                keyboardType = KeyboardType.Email
-            )
-            DefaultTextField(
-                modifier = Modifier.padding(top = 5.dp),
-                value = loginViewModel.password.value,
-                label = "Password",
-                onValueChange = { loginViewModel.password.value = it},
-                icon = Icons.Default.Lock,
-                keyboardType = KeyboardType.Password,
-                hideText = true
-            )
-
-            Spacer(modifier = Modifier.size(45.dp))
-            DefaultButton(
-                text = "INICIAR SESSION",
-                onClick = {
-                          Log.d("JHONNYFD_","Email: ${loginViewModel.email.value}")
-                          Log.d("JHONNYFD_","Password: ${loginViewModel.password.value}")
-                },
-                modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.size(25.dp))
-        }
-    }
-}
 
 @Preview(
     showBackground = true,
@@ -148,7 +137,7 @@ fun GreetingPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-//            LoginContent()
+            LoginContent()
 
         }
     }
