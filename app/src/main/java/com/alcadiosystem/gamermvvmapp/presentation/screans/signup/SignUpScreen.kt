@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTopBar
@@ -23,7 +24,9 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 fun SignUpScreen (navController: NavHostController){
     Scaffold (
         topBar = {
-                 DefaultTopBar(title = "Nuevo usuario", upAvailable = true, navController = navController)
+                 Surface (shadowElevation = 10.dp){
+                     DefaultTopBar(title = "Nuevo usuario", upAvailable = true, navController = navController)
+                 }
         },
         content = { innerPadding ->
             SignupContent(innerPadding)
