@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginScreen
+import com.alcadiosystem.gamermvvmapp.presentation.screans.profile.ProfileScreen
 import com.alcadiosystem.gamermvvmapp.presentation.screans.signup.SignUpScreen
 
 @Composable
@@ -18,6 +19,10 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(route = AppScreen.Signup.route){
             SignUpScreen(navController)
+        }
+
+        composable(route = AppScreen.Profile.route){
+            ProfileScreen(navController)
         }
     }
 }

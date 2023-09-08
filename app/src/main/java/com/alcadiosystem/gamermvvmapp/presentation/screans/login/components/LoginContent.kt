@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,17 +36,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.alcadiosystem.gamermvvmapp.R
 import com.alcadiosystem.gamermvvmapp.domain.model.Response
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTextField
+import com.alcadiosystem.gamermvvmapp.presentation.navigation.AppScreen
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginViewModel
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Darkgray500
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
-fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
+fun LoginContent(navController: NavHostController,loginViewModel: LoginViewModel = hiltViewModel()) {
 
 
     val loginFlow = loginViewModel.loginFlow.collectAsState()
@@ -152,7 +155,9 @@ fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
             }
 
             is Response.Success -> {
-                Toast.makeText(LocalContext.current, "Usuario logeado", Toast.LENGTH_SHORT).show()
+                LaunchedEffect(Unit){
+                    navController.navigate(route = AppScreen.Profile.route)
+                }
             }
 
             is Response.Failure -> {
@@ -183,7 +188,7 @@ fun GreetingPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            LoginContent()
+            //LoginContent()
 
         }
     }
