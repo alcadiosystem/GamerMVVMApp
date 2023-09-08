@@ -1,6 +1,7 @@
 package com.alcadiosystem.gamermvvmapp.presentation.screans.login.components
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,13 +17,16 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alcadiosystem.gamermvvmapp.R
+import com.alcadiosystem.gamermvvmapp.domain.model.Response
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTextField
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.LoginViewModel
@@ -41,6 +46,11 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 
 @Composable
 fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
+
+
+    val loginFlow = loginViewModel.loginFlow.collectAsState()
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -92,7 +102,7 @@ fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
                     modifier = Modifier.padding(top = 25.dp),
                     value = loginViewModel.email.value,
                     label = "Email",
-                    onValueChange = { loginViewModel.email.value = it},
+                    onValueChange = { loginViewModel.email.value = it },
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
                     errorMsg = loginViewModel.emailErrorMg.value,
@@ -104,7 +114,7 @@ fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
                     modifier = Modifier.padding(top = 5.dp),
                     value = loginViewModel.password.value,
                     label = "Password",
-                    onValueChange = { loginViewModel.password.value = it},
+                    onValueChange = { loginViewModel.password.value = it },
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
@@ -118,16 +128,43 @@ fun LoginContent(loginViewModel: LoginViewModel = hiltViewModel()) {
                 DefaultButton(
                     text = "INICIAR SESSION",
                     onClick = {
-                        Log.d("JHONNYFD_","Email: ${loginViewModel.email.value}")
-                        Log.d("JHONNYFD_","Password: ${loginViewModel.password.value}")
+                        loginViewModel.login()
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = loginViewModel.isEnabledLoginButton)
+                    enabled = loginViewModel.isEnabledLoginButton
+                )
                 Spacer(modifier = Modifier.size(25.dp))
             }
         }
 
 
+    }
+
+    loginFlow.value.let {
+        when (it) {
+            Response.Loading -> {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            is Response.Success -> {
+                Toast.makeText(LocalContext.current, "Usuario logeado", Toast.LENGTH_SHORT).show()
+            }
+
+            is Response.Failure -> {
+                Toast.makeText(
+                    LocalContext.current,
+                    it.exception?.message ?: "Error desconocido",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            else -> {}
+        }
     }
 }
 
