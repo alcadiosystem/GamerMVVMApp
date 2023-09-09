@@ -156,7 +156,9 @@ fun LoginContent(navController: NavHostController,loginViewModel: LoginViewModel
 
             is Response.Success -> {
                 LaunchedEffect(Unit){
-                    navController.navigate(route = AppScreen.Profile.route)
+                    navController.navigate(route = AppScreen.Profile.route){
+                        popUpTo(AppScreen.Login.route){inclusive = true}
+                    }
                 }
             }
 
