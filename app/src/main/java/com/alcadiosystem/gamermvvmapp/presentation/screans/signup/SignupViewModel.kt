@@ -4,11 +4,19 @@ import android.util.Patterns
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.alcadiosystem.gamermvvmapp.domain.model.Response
+import com.alcadiosystem.gamermvvmapp.domain.model.User
+import com.alcadiosystem.gamermvvmapp.domain.usecases.auth.AuthUseCase
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor() : ViewModel() {
+class SignupViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
 
     //USER
     var username: MutableState<String> = mutableStateOf("")
@@ -33,7 +41,7 @@ class SignupViewModel @Inject constructor() : ViewModel() {
     //BUTTON
     var isEnabledLoginButton = false
 
-    fun enabledSingUpButton() {
+    private fun enabledSingUpButton() {
         isEnabledLoginButton =
             isUserName.value && isEmailValid.value && isPasswordValid.value && isconfirmPassword.value
     }
@@ -81,6 +89,23 @@ class SignupViewModel @Inject constructor() : ViewModel() {
             confirmPasswordErrorMsg.value = "Las contrasenas no coinciden"
         }
         enabledSingUpButton()
+    }
+
+    private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
+    val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
+    fun signup(user:User) = viewModelScope.launch {
+        _signupFlow.value = Response.Loading
+        val result = authUseCase.signup(user)
+        _signupFlow.value = result
+    }
+
+    fun onSigun(){
+        val user = User(
+            name = username.value,
+            email = email.value,
+            password = password.value
+        )
+        signup(user)
     }
 
 }
