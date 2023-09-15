@@ -54,7 +54,6 @@ android {
 
 dependencies {
 
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
     val nav_version = "2.5.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -73,6 +72,12 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0-rc01")
+
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

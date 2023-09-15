@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.alcadiosystem.gamermvvmapp.domain.model.Response
 import com.alcadiosystem.gamermvvmapp.domain.model.User
 import com.alcadiosystem.gamermvvmapp.domain.usecases.auth.AuthUseCase
+import com.alcadiosystem.gamermvvmapp.domain.usecases.users.UserUseCase
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor(private val authUseCase: AuthUseCase) : ViewModel() {
+class SignupViewModel @Inject constructor(
+    private val authUseCase: AuthUseCase,
+    private val userUseCase: UserUseCase
+) : ViewModel() {
 
     //USER
     var username: MutableState<String> = mutableStateOf("")
@@ -40,6 +44,12 @@ class SignupViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
 
     //BUTTON
     var isEnabledLoginButton = false
+
+    //SIGNUP
+    private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
+    val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
+
+    val user = User()
 
     private fun enabledSingUpButton() {
         isEnabledLoginButton =
@@ -91,21 +101,23 @@ class SignupViewModel @Inject constructor(private val authUseCase: AuthUseCase) 
         enabledSingUpButton()
     }
 
-    private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
-    val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
-    fun signup(user:User) = viewModelScope.launch {
+
+    fun signup(user: User) = viewModelScope.launch {
         _signupFlow.value = Response.Loading
         val result = authUseCase.signup(user)
         _signupFlow.value = result
     }
 
-    fun onSigun(){
-        val user = User(
-            name = username.value,
-            email = email.value,
-            password = password.value
-        )
+    fun onSigun() {
+        user.name = username.value
+        user.email = email.value
+        user.password = password.value
         signup(user)
+    }
+
+    fun createUser() = viewModelScope.launch{
+        user.id = authUseCase.getCurrentUser()!!.uid
+        userUseCase.create(user)
     }
 
 }
