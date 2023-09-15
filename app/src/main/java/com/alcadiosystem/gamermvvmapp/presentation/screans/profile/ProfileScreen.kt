@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.navigation.AppScreen
+import com.alcadiosystem.gamermvvmapp.presentation.screans.profile.components.ProfileContent
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,13 +24,7 @@ fun ProfileScreen(
     Scaffold(
         topBar = {},
         content = {
-            DefaultButton(modifier = Modifier, text = "Cerrar session", onClick = {
-                Log.d("JDJDJDJ","FUNIONA BTN 1")
-                viewModel.logout()
-                navController.navigate(route = AppScreen.Login.route){
-                    popUpTo(AppScreen.Profile.route){inclusive = true}
-                }
-            })
+            ProfileContent(navController = navController, viewModel = viewModel)
         },
         bottomBar = {}
     )

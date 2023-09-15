@@ -23,6 +23,7 @@ fun DefaultButton(
     text: String,
     onClick: () -> Unit,
     color: Color = Red500,
+    textColor: Color = Color.White,
     icon: ImageVector = Icons.Default.ArrowForward,
     enabled:Boolean = true
 ){
@@ -30,7 +31,8 @@ fun DefaultButton(
         onClick = {onClick()},
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor = color
+            containerColor = color,
+            contentColor = textColor
         ),
         enabled = enabled
     ) {

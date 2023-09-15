@@ -191,9 +191,8 @@ fun SignupContent(
 
             is Response.Success -> {
                 LaunchedEffect(Unit) {
-                    navController.navigate(route = AppScreen.Profile.route) {
-                        popUpTo(AppScreen.Signup.route) { inclusive = true }
-                    }
+                    navController.popBackStack(AppScreen.Login.route,true)
+                    navController.navigate(route = AppScreen.Profile.route)
                 }
             }
 
