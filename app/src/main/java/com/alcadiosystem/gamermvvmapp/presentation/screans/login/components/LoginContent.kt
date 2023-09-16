@@ -50,9 +50,7 @@ import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.Red500
 @Composable
 fun LoginContent(navController: NavHostController,loginViewModel: LoginViewModel = hiltViewModel()) {
 
-
-    val loginFlow = loginViewModel.loginFlow.collectAsState()
-
+    val state = loginViewModel.state
 
     Box(
         modifier = Modifier
@@ -103,25 +101,25 @@ fun LoginContent(navController: NavHostController,loginViewModel: LoginViewModel
 
                 DefaultTextField(
                     modifier = Modifier.padding(top = 25.dp),
-                    value = loginViewModel.email.value,
+                    value = state.email,
                     label = "Email",
-                    onValueChange = { loginViewModel.email.value = it },
+                    onValueChange = { loginViewModel.onEmailInput(it) },
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
-                    errorMsg = loginViewModel.emailErrorMg.value,
+                    errorMsg = loginViewModel.emailErrorMg,
                     onValidateField = {
                         loginViewModel.validateEmail()
                     }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 5.dp),
-                    value = loginViewModel.password.value,
+                    value = state.password,
                     label = "Password",
-                    onValueChange = { loginViewModel.password.value = it },
+                    onValueChange = { loginViewModel.onPasswordInput(it) },
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = loginViewModel.passwordErrorMg.value,
+                    errorMsg = loginViewModel.passwordErrorMg,
                     onValidateField = {
                         loginViewModel.validatePassword()
                     }
@@ -141,57 +139,5 @@ fun LoginContent(navController: NavHostController,loginViewModel: LoginViewModel
         }
 
 
-    }
-
-    loginFlow.value.let {
-        when (it) {
-            Response.Loading -> {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is Response.Success -> {
-                LaunchedEffect(Unit){
-                    navController.navigate(route = AppScreen.Profile.route){
-                        popUpTo(AppScreen.Login.route){inclusive = true}
-                    }
-                }
-            }
-
-            is Response.Failure -> {
-                Toast.makeText(
-                    LocalContext.current,
-                    it.exception?.message ?: "Error desconocido",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            else -> {}
-        }
-    }
-}
-
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_3_XL
-)
-@Composable
-fun GreetingPreview() {
-    GamerMVVMAppTheme(darkTheme = true) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-
-            //LoginContent()
-
-        }
     }
 }

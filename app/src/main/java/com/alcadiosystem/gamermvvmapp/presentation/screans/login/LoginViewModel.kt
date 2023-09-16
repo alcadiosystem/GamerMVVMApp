@@ -2,7 +2,9 @@ package com.alcadiosystem.gamermvvmapp.presentation.screans.login
 
 import android.util.Patterns
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alcadiosystem.gamermvvmapp.domain.model.Response
@@ -16,63 +18,73 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase) :ViewModel() {
+
+    //STATE FORM
+    var state by mutableStateOf(LoginState())
+        private set
+
     //EMAIL
-    var email: MutableState<String> = mutableStateOf("")
-    var isEmailValid:MutableState<Boolean> = mutableStateOf(false)
-    var emailErrorMg: MutableState<String> = mutableStateOf("")
+    private var isEmailValid:Boolean by mutableStateOf(false)
+    var emailErrorMg: String by mutableStateOf("")
     //PASSWORD
-    var password: MutableState<String> = mutableStateOf("")
-    var isPasswordValid:MutableState<Boolean> = mutableStateOf(false)
-    var passwordErrorMg: MutableState<String> = mutableStateOf("")
+    private var isPasswordValid:Boolean by mutableStateOf(false)
+    var passwordErrorMg: String by mutableStateOf("")
     //BUTTON
     var isEnabledLoginButton = false
 
-    private val _loginFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
-    val loginFlow: StateFlow<Response<FirebaseUser>?> = _loginFlow
+    //LOGIN RESPONSE
+    var loginResponse by mutableStateOf<Response<FirebaseUser>?>(null)
 
     private val currentUser = authUseCase.getCurrentUser()
 
     init {
         if(currentUser != null){
             //Session iniciada
-            _loginFlow.value = Response.Success(currentUser)
+            loginResponse = Response.Success(currentUser)
         }
     }
 
     fun login() = viewModelScope.launch {
-        _loginFlow.value = Response.Loading
-        val result = authUseCase.login(email.value,password.value)
-        _loginFlow.value = result
+        loginResponse = Response.Loading
+        val result = authUseCase.login(state.email,state.password)
+        loginResponse = result
     }
 
-
-    fun enabledLoginButton(){
-        isEnabledLoginButton = isEmailValid.value && isPasswordValid.value
+    private fun enabledLoginButton(){
+        isEnabledLoginButton = isEmailValid && isPasswordValid
     }
 
     fun validateEmail(){
-        if(email.value.isNotEmpty()){
-            if(Patterns.EMAIL_ADDRESS.matcher(email.value).matches()){
-                isEmailValid.value = true
-                emailErrorMg.value = ""
+        if(state.email.isNotEmpty()){
+            if(Patterns.EMAIL_ADDRESS.matcher(state.email).matches()){
+                isEmailValid = true
+                emailErrorMg = ""
             }else{
-                isEmailValid.value = false
-                emailErrorMg.value = "El email no es valido"
+                isEmailValid = false
+                emailErrorMg = "El email no es valido"
             }
         }
         enabledLoginButton()
     }
 
     fun validatePassword(){
-        if(password.value.isNotEmpty()){
-            if(password.value.length >= 6){
-                isPasswordValid.value = true
-                passwordErrorMg.value = ""
+        if(state.password.isNotEmpty()){
+            if(state.password.length >= 6){
+                isPasswordValid = true
+                passwordErrorMg = ""
             }else{
-                isPasswordValid.value = false
-                passwordErrorMg.value = "Al menos 6 caracteres"
+                isPasswordValid = false
+                passwordErrorMg = "Al menos 6 caracteres"
             }
         }
         enabledLoginButton()
+    }
+
+    fun onEmailInput(email:String){
+        state = state.copy(email = email)
+    }
+
+    fun onPasswordInput(password:String){
+        state = state.copy(password = password)
     }
 }

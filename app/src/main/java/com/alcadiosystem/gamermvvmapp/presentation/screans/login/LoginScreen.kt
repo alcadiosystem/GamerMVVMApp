@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.alcadiosystem.gamermvvmapp.presentation.screans.login.components.Login
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.components.LoginBottomBar
 import com.alcadiosystem.gamermvvmapp.presentation.screans.login.components.LoginContent
 import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
@@ -30,6 +31,8 @@ fun LoginScreen(navController: NavHostController) {
             LoginContent(navController)
         }
     )
+    //MANEJO DE EL ESTADO DE LA PETICION DE LOGIN
+    Login(navController = navController)
 }
 
 @Preview(
