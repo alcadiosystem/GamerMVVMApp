@@ -11,6 +11,7 @@ import com.alcadiosystem.gamermvvmapp.domain.usecases.auth.Login
 import com.alcadiosystem.gamermvvmapp.domain.usecases.auth.Logout
 import com.alcadiosystem.gamermvvmapp.domain.usecases.auth.Signup
 import com.alcadiosystem.gamermvvmapp.domain.usecases.users.Create
+import com.alcadiosystem.gamermvvmapp.domain.usecases.users.GetUserById
 import com.alcadiosystem.gamermvvmapp.domain.usecases.users.UserUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -51,6 +52,7 @@ object AppModule {
 
     @Provides
     fun provideUsersUseCases(repository: UserRepository) = UserUseCase(
-        create = Create(repository)
+        create = Create(repository),
+        getUserById = GetUserById(repository)
     )
 }
