@@ -107,6 +107,7 @@ fun ProfileEditContent(
                 DefaultButton(
                     text = "Actualizar Datos",
                     onClick = {
+                              viewModel.onUpdate()
                     },
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Filled.Edit

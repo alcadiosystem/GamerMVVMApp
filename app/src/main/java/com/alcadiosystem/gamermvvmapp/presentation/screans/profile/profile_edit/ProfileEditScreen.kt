@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultTopBar
 import com.alcadiosystem.gamermvvmapp.presentation.screans.profile.profile_edit.components.ProfileEditContent
+import com.alcadiosystem.gamermvvmapp.presentation.screans.profile.profile_edit.components.Update
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,4 +32,6 @@ fun ProfileEditScreen(
         },
         bottomBar = {}
     )
+
+    Update()
 }

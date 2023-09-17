@@ -6,7 +6,8 @@ data class User(
     var id:String ="",
     var name:String = "",
     var email:String = "",
-    var password:String = ""
+    var password:String = "",
+    var image: String = ""
 ){
     fun toJson(): String = Gson().toJson(this)
 
