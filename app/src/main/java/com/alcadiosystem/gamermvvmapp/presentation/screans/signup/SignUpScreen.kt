@@ -33,6 +33,8 @@ fun SignUpScreen (navController: NavHostController){
         },
         bottomBar = {}
     )
+
+    SignUp(navController = navController)
 }
 
 @Preview(

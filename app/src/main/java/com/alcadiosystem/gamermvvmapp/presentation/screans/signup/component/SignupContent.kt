@@ -60,8 +60,7 @@ fun SignupContent(
     innerPadding: PaddingValues,
     viewModel: SignupViewModel = hiltViewModel()
 ) {
-
-    val signupFlow = viewModel.signupFlow.collectAsState()
+    val state = viewModel.state
 
     Box(
         modifier = Modifier
@@ -114,44 +113,44 @@ fun SignupContent(
 
                 DefaultTextField(
                     modifier = Modifier.padding(top = 25.dp),
-                    value = viewModel.username.value,
+                    value = state.username,
                     label = "Nombre de usuario",
-                    onValueChange = { viewModel.username.value = it },
+                    onValueChange = { viewModel.onUserNameInput(it)},
                     icon = Icons.Filled.Person,
-                    errorMsg = viewModel.userNameErrorMsg.value,
+                    errorMsg = viewModel.userNameErrorMsg,
                     onValidateField = { viewModel.validateUserName() }
                 )
 
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = viewModel.email.value,
+                    value = state.email,
                     label = "Email",
-                    onValueChange = { viewModel.email.value = it },
+                    onValueChange = { viewModel.onEmailInput(it)},
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
-                    errorMsg = viewModel.emailErrorMg.value,
+                    errorMsg = viewModel.emailErrorMg,
                     onValidateField = { viewModel.validateEmail() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = viewModel.password.value,
+                    value = state.password,
                     label = "Password",
-                    onValueChange = { viewModel.password.value = it },
+                    onValueChange = { viewModel.onPasswordInput(it) },
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = viewModel.passwordErrorMg.value,
+                    errorMsg = viewModel.passwordErrorMg,
                     onValidateField = { viewModel.validatePassword() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = viewModel.confirmPassword.value,
+                    value = state.confirmPassword,
                     label = "Confirmar Password",
-                    onValueChange = { viewModel.confirmPassword.value = it },
+                    onValueChange = { viewModel.onConfirmPasswordInput(it) },
                     icon = Icons.Outlined.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = viewModel.confirmPasswordErrorMsg.value,
+                    errorMsg = viewModel.confirmPasswordErrorMsg,
                     onValidateField = { viewModel.validateConfirmPassword() }
                 )
 
@@ -172,34 +171,6 @@ fun SignupContent(
 
     }
 
-
-    signupFlow.value.let {
-        when (it) {
-            is Response.Failure -> {
-                Toast.makeText(
-                    LocalContext.current,
-                    it.exception?.message ?: "Error desconocido",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-            Response.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is Response.Success -> {
-                LaunchedEffect(Unit) {
-                    viewModel.createUser()
-                    navController.popBackStack(AppScreen.Login.route,true)
-                    navController.navigate(route = AppScreen.Profile.route)
-                }
-            }
-
-            null -> {}
-        }
-    }
 
 }
 
