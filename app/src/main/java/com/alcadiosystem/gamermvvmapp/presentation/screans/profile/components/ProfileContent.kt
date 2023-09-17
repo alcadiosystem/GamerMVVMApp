@@ -1,6 +1,5 @@
 package com.alcadiosystem.gamermvvmapp.presentation.screans.profile.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -32,7 +28,6 @@ import com.alcadiosystem.gamermvvmapp.R
 import com.alcadiosystem.gamermvvmapp.presentation.componets.DefaultButton
 import com.alcadiosystem.gamermvvmapp.presentation.navigation.AppScreen
 import com.alcadiosystem.gamermvvmapp.presentation.screans.profile.ProfileViewModel
-import com.alcadiosystem.gamermvvmapp.presentation.ui.theme.GamerMVVMAppTheme
 
 @Composable
 
@@ -83,7 +78,11 @@ fun ProfileContent(navController: NavHostController, viewModel: ProfileViewModel
         DefaultButton(
             modifier = Modifier.width(250.dp),
             text = "Editar datos",
-            onClick = {},
+            onClick = {
+                      navController.navigate(
+                          route = AppScreen.ProfileEdit.passUser(viewModel.userData.toJson())
+                      )
+            },
             color = Color.White,
             icon = Icons.Filled.Edit,
             textColor = Color.Black
